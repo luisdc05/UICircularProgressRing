@@ -41,12 +41,13 @@ private extension CGFloat {
  */
 private extension UILabel {
     func update(withValue value: CGFloat, valueIndicator: String,
-                showsDecimal: Bool, decimalPlaces: Int) {
+                showsDecimal: Bool, decimalPlaces: Int, maxValue: CGFloat) {
         if showsDecimal {
             self.text = String(format: "%.\(decimalPlaces)f", value) +
                         "\(valueIndicator)"
         } else {
-            self.text = "\(Int(value))\(valueIndicator)"
+            let percentage = (100 * value) / maxValue
+            self.text = "\(Int(percentage))\(valueIndicator)"
         }
         self.sizeToFit()
     }
@@ -316,7 +317,8 @@ class UICircularProgressRingLayer: CAShapeLayer {
         valueLabel.update(withValue: value,
                           valueIndicator: valueIndicator,
                           showsDecimal: showFloatingPoint,
-                          decimalPlaces: decimalPlaces)
+                          decimalPlaces: decimalPlaces,
+                          maxValue: maxValue)
         
         // Deterime what should be the center for the label
         valueLabel.center = CGPoint(x: bounds.midX, y: bounds.midY)
